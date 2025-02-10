@@ -5,7 +5,7 @@ dotenv.config();
 
 const app: Express = express();
 
-app.use('/', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
     res.send('Express is working!');
 })
 
