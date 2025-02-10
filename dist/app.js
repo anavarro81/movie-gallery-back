@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Express is working!');
 });
 app.listen(process.env.PORT, () => {
