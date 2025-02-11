@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts"
+  "start": "nodemon src/server.ts",
+  "build": "rimraf dist && tsc",
+  "ts.check": "tsc --project tsconfig.json",
+  "add-build": "git add dist"  
   },
+  "pre-commit": [
+      "ts.check",
+      "build",
+      "add-build"
+  ],
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,12 +23,14 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "moongose": "^1.0.0",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.1",
     "nodemon": "^3.1.9",
+    "pre-commit": "^1.2.2",
     "typescript": "^5.7.3"
   }
 }

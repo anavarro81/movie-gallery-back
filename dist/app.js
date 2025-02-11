@@ -9,6 +9,6 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.get("/", (req, res) => {
-    res.send("Express + TypeScript Server");
+    res.send("Express + TypeScript Server!!");
 });
 exports.default = app;
