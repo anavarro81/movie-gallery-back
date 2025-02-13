@@ -26,7 +26,33 @@ const loadMovies = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json(error);
     }
 });
+const deleteMovies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const movies = yield movie_model_1.default.deleteMany({});
+        if (movies) {
+            res.status(201).json(movies);
+        }
+    }
+    catch (error) {
+        console.log('Error loading movies', error);
+        res.status(500).json(error);
+    }
+});
+const getAllMovies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const movies = yield movie_model_1.default.find();
+        if (movies) {
+            res.status(200).json(movies);
+        }
+    }
+    catch (error) {
+        console.log('Error loading movies', error);
+        res.status(500).json(error);
+    }
+});
 const moviesController = {
-    loadMovies
+    loadMovies,
+    deleteMovies,
+    getAllMovies
 };
 exports.default = moviesController;
