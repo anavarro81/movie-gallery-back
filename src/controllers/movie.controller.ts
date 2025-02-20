@@ -1,5 +1,42 @@
 import {Request, Response} from 'express';
 import MovieModel from '../models/movie.model';
+import {parseForm, extractedFields}  from '../plugins/formidable.plugin';
+import {uploadImage} from '../plugins/cloudinary.plugin';
+
+const newMovie = async (req: Request, res: Response):Promise<void>  => {
+
+    // Parsear el formulario para obtener los campos y los archivos
+    const [fields, files]= await parseForm(req)    
+
+    // Extraer los campos del formulario ya que cada uno viene dentro de un array. 
+    const movieFields = extractedFields(fields);
+
+    
+
+    // Se comprueba si se ha subido un archivo
+    if (!files.poster) {
+        res.status(500).json({ message: 'No file uploaded' });
+        return;
+    }
+    
+    // Obtener la ruta del arhivo
+    const filePath = files.poster[0].filepath;
+
+    // Subir la imagen a Cloudinary
+    const ulrImage = await uploadImage(filePath) 
+
+    console.log('movieFields', movieFields)
+
+    try {
+        const Movie = new MovieModel({...movieFields, poster: ulrImage})
+        const savedMovie = await Movie.save()
+        res.status(201).json(savedMovie)
+    } catch (error) {
+        console.log('Error creating movie', error)
+        res.status(500).json(error)
+    }
+
+}
 
 const loadMovies = async (req: Request, res: Response):Promise<void>  => {
     try {
@@ -33,6 +70,18 @@ const deleteMovies = async (req: Request, res: Response):Promise<void>  => {
     }
 }
 
+const deleteById = async (req: Request, res: Response):Promise<void>  => {
+
+    try {
+        const { id } = req.params
+        const movies = await MovieModel.findByIdAndDelete(id)
+        res.status(200).json({message: 'Movie deleted'})
+    } catch (error) {
+        console.log('Error borrando pelicula', error)  
+        res.status(500).json(error)
+    }
+}
+
 const getAllMovies = async (req: Request, res: Response): Promise<void> => {
     
     try {
@@ -49,9 +98,11 @@ const getAllMovies = async (req: Request, res: Response): Promise<void> => {
 }
 
 const moviesController = {
+    newMovie,
     loadMovies,
     deleteMovies,
-    getAllMovies
+    getAllMovies,
+    deleteById
 }
 
 

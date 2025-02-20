@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const movieSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
-    poster: { type: String, required: true },
+    poster: { type: String, required: false },
     cinema: { type: String, required: true },
     releasedDate: { type: Date, required: true },
     genre: { type: [String], required: true },

@@ -1,7 +1,12 @@
+
 import express, { Express, Request, Response } from "express";
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import moviesRouter from "./routes/movie.route";
+import { optionCors } from "./config/cors.config";
+import cors from 'cors'
+import  moviesController from "../src/controllers/movie.controller";
+
 dotenv.config()
 
 const BD_URI = process.env.BD_URI
@@ -14,11 +19,24 @@ if (!BD_URI) {
 
 const app = express();
 // convierte los datos JSON en objetos JavaScript accesibles a través de req.body
+// app.use(cors(optionCors)); // Config de cors
+
+
+app.use(cors({
+  origin: 'http://localhost:5173', // Cambia esto por el puerto de tu frontend
+  methods: ['POST', 'GET', 'PUT', 'DELETE'],
+  credentials: true // Permite el uso de cookies y headers de autenticación
+}));
+
+
 app.use(express.json());
+
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server!!");
 });
+
+
 
 app.use('/movies', moviesRouter)
 

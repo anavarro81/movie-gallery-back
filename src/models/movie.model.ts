@@ -13,7 +13,7 @@ export interface IMovie extends Document {
 
 const movieSchema = new Schema({ 
   title: { type: String, required: true },
-  poster: { type: String, required: true },
+  poster: { type: String, required: false },
   cinema: { type: String, required: true },
   releasedDate: { type: Date, required: true },
   genre: { type: [String], required: true },

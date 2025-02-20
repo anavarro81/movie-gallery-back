@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const movie_controller_1 = __importDefault(require("../controllers/movie.controller"));
 const moviesRouter = express_1.default.Router();
 moviesRouter.post('/load-movies', movie_controller_1.default.loadMovies);
+moviesRouter.post("", movie_controller_1.default.newMovie);
 moviesRouter.delete('/delete-movies', movie_controller_1.default.deleteMovies);
+moviesRouter.delete('/:id', movie_controller_1.default.deleteById);
 moviesRouter.get('/all-movies', movie_controller_1.default.getAllMovies);
 exports.default = moviesRouter;

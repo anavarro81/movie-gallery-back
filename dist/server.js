@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const movie_route_1 = __importDefault(require("./routes/movie.route"));
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const BD_URI = process.env.BD_URI;
 // TypeScript no permite la conexion tenga un valor nulo. 
@@ -16,6 +17,12 @@ if (!BD_URI) {
 }
 const app = (0, express_1.default)();
 // convierte los datos JSON en objetos JavaScript accesibles a través de req.body
+// app.use(cors(optionCors)); // Config de cors
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:5173', // Cambia esto por el puerto de tu frontend
+    methods: ['POST', 'GET', 'PUT', 'DELETE'],
+    credentials: true // Permite el uso de cookies y headers de autenticación
+}));
 app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server!!");
