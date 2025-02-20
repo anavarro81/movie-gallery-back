@@ -23,7 +23,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Cambia esto por el puerto de tu frontend
+  origin: "*", // Cambia esto por el puerto de tu frontend
   methods: ['POST', 'GET', 'PUT', 'DELETE'],
   credentials: true // Permite el uso de cookies y headers de autenticación
 }));

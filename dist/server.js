@@ -19,7 +19,7 @@ const app = (0, express_1.default)();
 // convierte los datos JSON en objetos JavaScript accesibles a través de req.body
 // app.use(cors(optionCors)); // Config de cors
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:5173', // Cambia esto por el puerto de tu frontend
+    origin: "*", // Cambia esto por el puerto de tu frontend
     methods: ['POST', 'GET', 'PUT', 'DELETE'],
     credentials: true // Permite el uso de cookies y headers de autenticación
 }));
