@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from "express";
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import moviesRouter from "./routes/movie.route";
+import userRouter from "./routes/user.route"
 import { optionCors } from "./config/cors.config";
 import cors from 'cors'
 import  moviesController from "../src/controllers/movie.controller";
@@ -39,6 +40,7 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use('/movies', moviesRouter)
+app.use('/user/', userRouter)
 
 // Si la ruta no existe, se envia un mensaje de error
 app.use((req, res) => {

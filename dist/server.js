@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const movie_route_1 = __importDefault(require("./routes/movie.route"));
+const user_route_1 = __importDefault(require("./routes/user.route"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const BD_URI = process.env.BD_URI;
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
     res.send("Express + TypeScript Server!!");
 });
 app.use('/movies', movie_route_1.default);
+app.use('/user/', user_route_1.default);
 // Si la ruta no existe, se envia un mensaje de error
 app.use((req, res) => {
     res.status(404).send('Ruta no encontrada :/');
