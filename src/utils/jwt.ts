@@ -16,7 +16,7 @@ const generateSign = (id: string, email:string): string => {
     return jwt.sign({id, email}, jwtKey, {expiresIn: "1h"})
 
 }
-
+// Comprueba que el token está correcto. 
 const verifySing =(token: string): any => {
     //La firma del token se realiza usando una clave secreta almacenada en la variable de entorno process.env.JWT_KEY.
     const jwtKey = process.env.JWT_KEY

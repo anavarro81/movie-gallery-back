@@ -17,6 +17,7 @@ const generateSign = (id, email) => {
     return jsonwebtoken_1.default.sign({ id, email }, jwtKey, { expiresIn: "1h" });
 };
 exports.generateSign = generateSign;
+// Comprueba que el token está correcto. 
 const verifySing = (token) => {
     //La firma del token se realiza usando una clave secreta almacenada en la variable de entorno process.env.JWT_KEY.
     const jwtKey = process.env.JWT_KEY;
