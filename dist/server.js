@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
     res.send("Express + TypeScript Server!!");
 });
 app.use('/movies', movie_route_1.default);
-app.use('/user/', user_route_1.default);
+app.use('/user', user_route_1.default);
 // Si la ruta no existe, se envia un mensaje de error
 app.use((req, res) => {
     res.status(404).send('Ruta no encontrada :/');

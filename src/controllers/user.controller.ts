@@ -1,6 +1,6 @@
 import userModel from '../models/user.model';
 import bcrypt from 'bcrypt';
-import { RequestHandler } from 'express';
+    import { RequestHandler } from 'express';
 
 import {validateEmail, 
     validatePassword, 
@@ -77,6 +77,10 @@ export const login: RequestHandler = async (req, res) => {
 
         // Comprueba que user.password este definido antes comprar la password
         // Si no coincide la password da error. 
+
+
+
+
         if (user.password && !bcrypt.compareSync(password, user.password)) {
             res.status(404).json({ message: "password incorrecto" });
             return

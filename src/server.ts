@@ -40,7 +40,7 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use('/movies', moviesRouter)
-app.use('/user/', userRouter)
+app.use('/user', userRouter)
 
 // Si la ruta no existe, se envia un mensaje de error
 app.use((req, res) => {
