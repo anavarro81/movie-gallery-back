@@ -64,7 +64,9 @@ export const login: RequestHandler = async (req, res) => {
     const {email, password} = req.body
     let token = ""
 
+
     try {
+
 
         // Busca el usuario por email
         const user = await userModel.findOne({email: email})
@@ -101,7 +103,9 @@ export const login: RequestHandler = async (req, res) => {
             throw new Error('User email is missing');
         }
 
-        res.status(200).json({user: user, token: token})
+        
+
+        res.status(200).json({id: user._id, email: user.email, name: user.name, token: token})
         
 
         

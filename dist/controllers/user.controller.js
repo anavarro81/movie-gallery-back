@@ -82,7 +82,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         else {
             throw new Error('User email is missing');
         }
-        res.status(200).json({ user: user, token: token });
+        res.status(200).json({ id: user._id, email: user.email, name: user.name, token: token });
     }
     catch (error) {
         console.log('error en el login ', error);
