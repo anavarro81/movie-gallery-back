@@ -1,6 +1,8 @@
 import userModel from '../models/user.model';
 import bcrypt from 'bcrypt';
-    import { RequestHandler } from 'express';
+import { RequestHandler } from 'express';
+import mongoose, { Types } from 'mongoose';
+
 
 import {validateEmail, 
     validatePassword, 
@@ -94,7 +96,7 @@ export const login: RequestHandler = async (req, res) => {
         }
 
         // No se devuelve la password
-        user.password = undefined
+        // user.password = undefined
 
         // Se genera el token | user._id se convierte a String desde tipo objectId para que coincida con la firma de la función. 
         if (user.email) {
@@ -119,4 +121,49 @@ export const login: RequestHandler = async (req, res) => {
     
 
 }
+// Se define los parametros de tipo Types.ObjectId (id de Monogose).
+export const addMovieToUser = async (userId: Types.ObjectId, movieId: Types.ObjectId) => {
 
+
+    try {
+        
+        const updatedUser = await userModel.findByIdAndUpdate(userId, {$push: {movies: movieId}}, {new: true})
+        console.log('updatedUser', updatedUser)
+        return updatedUser
+
+
+    } catch (error) {
+
+        console.log('Error al añadir película al usuario', error)
+        return null
+    }
+
+
+}
+
+export const getUserMovies: RequestHandler = async (req, res) => {
+
+    try {
+
+        const {id} = req.params
+        
+
+        console.log('id: ', id)
+
+        const user = await userModel.findById(id).populate("movies").exec() 
+        // const user = await userModel.findById(id)
+
+        console.log('user ', user)
+
+        if (user) {
+            res.status(200).json({user})
+        }
+        
+
+    } catch(error) {
+
+        console.log('Error al obtener las peliculas del usuario', error)
+        res.status(200).json(error)
+    }
+
+}

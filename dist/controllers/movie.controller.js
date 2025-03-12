@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const formidable_plugin_1 = require("../plugins/formidable.plugin");
 const cloudinary_plugin_1 = require("../plugins/cloudinary.plugin");
+const user_controller_1 = require("../controllers/user.controller");
 const newMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Parsear el formulario para obtener los campos y los archivos
     const [fields, files] = yield (0, formidable_plugin_1.parseForm)(req);
@@ -30,9 +31,13 @@ const newMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Subir la imagen a Cloudinary
     const ulrImage = yield (0, cloudinary_plugin_1.uploadImage)(filePath);
     console.log('movieFields', movieFields);
+    const userId = movieFields.userId;
     try {
         const Movie = new movie_model_1.default(Object.assign(Object.assign({}, movieFields), { poster: ulrImage }));
         const savedMovie = yield Movie.save();
+        if (savedMovie) {
+            (0, user_controller_1.addMovieToUser)(userId, savedMovie._id);
+        }
         res.status(201).json(savedMovie);
     }
     catch (error) {

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.register = void 0;
+exports.getUserMovies = exports.addMovieToUser = exports.login = exports.register = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const validators_1 = require("../utils/validators");
@@ -74,7 +74,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         // No se devuelve la password
-        user.password = undefined;
+        // user.password = undefined
         // Se genera el token | user._id se convierte a String desde tipo objectId para que coincida con la firma de la función. 
         if (user.email) {
             token = (0, jwt_1.generateSign)(user._id.toString(), user.email);
@@ -90,3 +90,33 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+// Se define los parametros de tipo Types.ObjectId (id de Monogose).
+const addMovieToUser = (userId, movieId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const updatedUser = yield user_model_1.default.findByIdAndUpdate(userId, { $push: { movies: movieId } }, { new: true });
+        console.log('updatedUser', updatedUser);
+        return updatedUser;
+    }
+    catch (error) {
+        console.log('Error al añadir película al usuario', error);
+        return null;
+    }
+});
+exports.addMovieToUser = addMovieToUser;
+const getUserMovies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        console.log('id: ', id);
+        const user = yield user_model_1.default.findById(id).populate("movies").exec();
+        // const user = await userModel.findById(id)
+        console.log('user ', user);
+        if (user) {
+            res.status(200).json({ user });
+        }
+    }
+    catch (error) {
+        console.log('Error al obtener las peliculas del usuario', error);
+        res.status(200).json(error);
+    }
+});
+exports.getUserMovies = getUserMovies;

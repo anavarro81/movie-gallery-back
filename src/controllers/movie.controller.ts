@@ -2,6 +2,7 @@ import {Request, Response} from 'express';
 import MovieModel from '../models/movie.model';
 import {parseForm, extractedFields}  from '../plugins/formidable.plugin';
 import {uploadImage} from '../plugins/cloudinary.plugin';
+import {addMovieToUser} from '../controllers/user.controller';
 
 const newMovie = async (req: Request, res: Response):Promise<void>  => {
 
@@ -9,9 +10,7 @@ const newMovie = async (req: Request, res: Response):Promise<void>  => {
     const [fields, files]= await parseForm(req)    
 
     // Extraer los campos del formulario ya que cada uno viene dentro de un array. 
-    const movieFields = extractedFields(fields);
-
-    
+    const movieFields = extractedFields(fields);    
 
     // Se comprueba si se ha subido un archivo
     if (!files.poster) {
@@ -27,9 +26,18 @@ const newMovie = async (req: Request, res: Response):Promise<void>  => {
 
     console.log('movieFields', movieFields)
 
+    const userId = movieFields.userId
+
     try {
         const Movie = new MovieModel({...movieFields, poster: ulrImage})
         const savedMovie = await Movie.save()
+
+        
+
+        if (savedMovie){
+            addMovieToUser(userId, savedMovie._id )
+        }
+
         res.status(201).json(savedMovie)
     } catch (error) {
         console.log('Error creating movie', error)
