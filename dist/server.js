@@ -26,7 +26,7 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.get("/", (req, res) => {
-    res.send("Express + TypeScript Server!!");
+    res.send("Express + TypeScript Server!!!!");
 });
 app.use('/movies', movie_route_1.default);
 app.use('/user', user_route_1.default);
